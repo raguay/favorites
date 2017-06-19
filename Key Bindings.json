@@ -1,0 +1,5 @@
+[
+	{ "keys": ["Shift+f"], "command": "set_favorite_directory" },
+	{ "keys": ["Ctrl+f"], "command": "remove_favorite_directory"},
+	{ "keys": ["Ctrl+0"], "command": "go_to_favorite"}
+]
