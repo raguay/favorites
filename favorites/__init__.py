@@ -297,101 +297,26 @@ def path_is_parent(parent_path, child_path):
     return os.path.commonpath([parent_path]) == os.path.commonpath([parent_path, child_path])
 
 #
-# Function:    goToHotDir
-#
-# Description: Go to the directory stored in the HOTLIST memory.
-#
-def goToHotDir(panel,dirNum):
-    if dirNum < 0 or dirNum >4:
-        dirNum = 0
-    panel.pane.set_path(expandDirPath(HOTLIST[dirNum]))
-
-#
-# Function:    setHotDir
-#
-# Description: Set the current panel's directory into the specified HOTLIST memory.
-#
-def setHotDir(panel,dirNum):
-    if dirNum < 0 or dirNum >3:
-        dirNum = 0
-    HOTLIST[dirNum] = panel.pane.get_path()
-
-#
-# Function:    SetHotDir1
+# Function:    SetHotDir
 #
 # Description: This class performs the operation of going
-#              to the first directory stored in memory.
+#              to the specified directory stored in memory.
 #
-class SetHotDir1(DirectoryPaneCommand):
-    def __call__(self):
-        setHotDir(self,0)
+class SetHotDir(DirectoryPaneCommand):
+    def __call__(self, dirNum):
+        if dirNum < 0 or dirNum >3:
+            dirNum = 0
+        HOTLIST[dirNum] = self.pane.get_path()
 
 #
-# Function:    SetHotDir2
+# Function:    GoToHotDir
 #
 # Description: This class performs the operation of going
-#              to the second directory stored in memory.
+#              to the specified directory stored in memory.
 #
-class SetHotDir2(DirectoryPaneCommand):
-    def __call__(self):
-        setHotDir(self,1)
+class GoToHotDir(DirectoryPaneCommand):
+    def __call__(self, dirNum):
+        if dirNum < 0 or dirNum >4:
+            dirNum = 0
+        self.pane.set_path(expandDirPath(HOTLIST[dirNum]))
 
-#
-# Function:    SetHotDir3
-#
-# Description: This class performs the operation of going
-#              to the third directory stored in memory.
-#
-class SetHotDir3(DirectoryPaneCommand):
-    def __call__(self):
-        setHotDir(self,2)
-
-#
-# Function:    SetHotDir4
-#
-# Description: This class performs the operation of going
-#              to the fourth directory stored in memory.
-#
-class SetHotDir4(DirectoryPaneCommand):
-    def __call__(self):
-        setHotDir(self,3)
-
-#
-# Function:    GoToHotDir1
-#
-# Description: This class performs the operation of going
-#              to the first directory stored in memory.
-#
-class GoToHotDir1(DirectoryPaneCommand):
-    def __call__(self):
-        goToHotDir(self,0)
-
-#
-# Function:    GoToHotDir2
-#
-# Description: This class performs the operation of going
-#              to the second directory stored in memory.
-#
-class GoToHotDir2(DirectoryPaneCommand):
-    def __call__(self):
-        goToHotDir(self,1)
-
-#
-# Function:    GoToHotDir3
-#
-# Description: This class performs the operation of going
-#              to the third directory stored in memory.
-#
-class GoToHotDir3(DirectoryPaneCommand):
-    def __call__(self):
-        goToHotDir(self,2)
-
-#
-# Function:    GoToHotDir4
-#
-# Description: This class performs the operation of going
-#              to the fourth directory stored in memory.
-#
-class GoToHotDir4(DirectoryPaneCommand):
-    def __call__(self):
-        goToHotDir(self,3)
