@@ -36,8 +36,8 @@ class GoToFavorite(DirectoryPaneCommand):
                 with open(FAVORITELIST, "r") as f:
                     directories = f.readlines()
             for dirTuple in directories:
-                if dirTuple.find("|") > 0:
-                    favName, favPath = dirTuple.strip().split('|')
+                if '|' in dirTuple:
+                    favName, favPath = dirTuple.strip().split('|')[0:2]
                     if favName == dirName:
                         self.pane.set_path(expandDirPath(favPath + os.sep))
         clear_status_message()
@@ -48,7 +48,7 @@ class GoToFavorite(DirectoryPaneCommand):
             with open(FAVORITELIST, "r") as f:
                 directories = f.readlines()
         for dirTuple in directories:
-            if dirTuple.strip() != "":
+            if  '|' in dirTuple:
                 dirName = dirTuple.split('|')[0]
                 match = contains_chars(dirName.lower(), query.lower())
                 if match or not query:
@@ -86,7 +86,7 @@ class RemoveFavoriteDirectory(DirectoryPaneCommand):
             with open(FAVORITELIST, "r") as f:
                 favorites = f.readlines()
         for favTuple in favorites:
-            if favTuple.strip() != "":
+            if  '|' in favTuple:
                 favName = favTuple.split('|')[0]
                 match = contains_chars(favName.lower(), query.lower())
                 if match or not query:
@@ -117,10 +117,10 @@ class RemoveShortenerDirectory(DirectoryPaneCommand):
                     directories = f.readlines()
                 with open(SHORTENERLIST, "w") as f:
                     for dirTuple in directories:
-                        if dirTuple.find("|") > 0:
-                            shortenerName, shortDir = dirTuple.strip().split('|')
+                        if  '|' in dirTuple:
+                            shortenerName, shortDir = dirTuple.strip().split('|')[0:2]
                             if shortenerName != shortName:
-                                f.write(dirTuple)
+                                f.write(dirTuple + '\n')
                             else:
                                 shortenDir = shortDir
             #
@@ -133,8 +133,8 @@ class RemoveShortenerDirectory(DirectoryPaneCommand):
                 pattern = re.compile("\{\{" + shortName + "\}\}(.*)$")
                 with open(FAVORITELIST,"w") as f:
                     for fav in favorties:
-                        if fav.find("|") > 0:
-                            favName, favPath = fav.strip().split('|')
+                        if  '|' in fav:
+                            favName, favPath = fav.strip().split('|')[0:2]
                             match = pattern.search(favPath)
                             if match:
                                 favPath = shortenDir + match.group(1)
