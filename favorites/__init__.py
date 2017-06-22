@@ -303,7 +303,7 @@ def path_is_parent(parent_path, child_path):
 #              to the specified directory stored in memory.
 #
 class SetHotDir(DirectoryPaneCommand):
-    def __call__(self, dirNum):
+    def __call__(self, dirNum=0):
         if dirNum < 0 or dirNum >3:
             dirNum = 0
         HOTLIST[dirNum] = self.pane.get_path()
@@ -315,7 +315,7 @@ class SetHotDir(DirectoryPaneCommand):
 #              to the specified directory stored in memory.
 #
 class GoToHotDir(DirectoryPaneCommand):
-    def __call__(self, dirNum):
+    def __call__(self, dirNum=0):
         if dirNum < 0 or dirNum >4:
             dirNum = 0
         self.pane.set_path(expandDirPath(HOTLIST[dirNum]))

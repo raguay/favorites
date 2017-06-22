@@ -44,21 +44,9 @@ After restarting **fman**, you will have the ability to set favorite directories
 
 `Remove Shortener Directory` - This command removes a shortener directory from the shortener list. It then expands the shortener in all the favorites that had that shortener.
 
-`Go to hot dir1` - This command set the current panel to the directory store in the memory location 1. The default is home.
+`Go to hot dir` - This command set the current panel to the directory store in the memory location specified in the dirNum argument. The default is 0.
 
-`Go to hot dir2` - This command set the current panel to the directory store in the memory location 2. The default is home.
-
-`Go to hot dir3` - This command set the current panel to the directory store in the memory location 3. The default is home.
-
-`Go to hot dir4` - This command set the current panel to the directory store in the memory location 4. The default is home.
-
-`Set hot dir1` - This command set the current panel to the directory store in the memory location 1. The default is home.
-
-`Set hot dir2` - This command set the current panel to the directory store in the memory location 2. The default is home.
-
-`Set hot dir3` - This command set the current panel to the directory store in the memory location 3. The default is home.
-
-`Set hot dir4` - This command set the current panel to the directory store in the memory location 4. The default is home.
+`Set hot dir` - This command set the current panel to the directory store in the memory location 1 specified in the dirNum argument. The default is 0.
 
 #### Files Created and Used
 
