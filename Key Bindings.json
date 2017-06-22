@@ -1,5 +1,13 @@
 [
 	{ "keys": ["Shift+f"], "command": "set_favorite_directory" },
 	{ "keys": ["Ctrl+f"], "command": "remove_favorite_directory"},
-	{ "keys": ["Ctrl+0"], "command": "go_to_favorite"}
+	{ "keys": ["Ctrl+0"], "command": "go_to_favorite"},
+	{ "keys": ["Cmd+1"], "command": "set_hot_dir1"},
+	{ "keys": ["Cmd+2"], "command": "set_hot_dir2"},
+	{ "keys": ["Cmd+3"], "command": "set_hot_dir3"},
+	{ "keys": ["Cmd+4"], "command": "set_hot_dir4"},
+	{ "keys": ["Alt+1"], "command": "go_to_hot_dir1"},
+	{ "keys": ["Alt+2"], "command": "go_to_hot_dir2"},
+	{ "keys": ["Alt+3"], "command": "go_to_hot_dir3"},
+	{ "keys": ["Alt+4"], "command": "go_to_hot_dir4"}
 ]

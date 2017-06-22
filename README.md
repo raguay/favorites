@@ -2,9 +2,9 @@
 
 Plugin for [fman.io](https://fman.io) that gives you the ability to setup a list of favorite directories to go to.
 
-Install by uploading "Favorites" to your [data directory](https://fman.io/docs/customizing-fman)`/Plugins/ThirdParty`.
+You can install this plugin by pressing `<shift+cmd+p>` to open the command pallet. Then type `install plugin`. Look for the `favorite` plugin and select it.
 
-After restarting **fman**, you will have the ability to set favorite directories, go to them, set path shorteners, remove path shorteners, and remove favorites.
+After restarting **fman**, you will have the ability to set favorite directories, go to them, set path shorteners, remove path shorteners, remove favorites, and set/go to four directory locations kept in memory.
 
 ### Usage
 
@@ -16,9 +16,25 @@ After restarting **fman**, you will have the ability to set favorite directories
 
 <Ctrl+0> - Go to a Favorite Directory.
 
+<Cmd+1> - Set the first directory memory to the current panel's directory.
+
+<Cmd+2> - Set the second directory memory to the current panel's directory.
+
+<Cmd+3> - Set the third directory memory to the current panel's directory.
+
+<Cmd+4> - Set the fourth directory memory to the current panel's directory.
+
+<Alt+1> - Set the current panel to go to the first directory memory location.
+
+<Alt+2> - Set the current panel to go to the second directory memory location.
+
+<Alt+3> - Set the current panel to go to the third directory memory location.
+
+<Alt+4> - Set the current panel to go to the fourth directory memory location.
+
 #### Commands
 
-`Go To Favorite` - This command will display a list of favorites by their assigned names for the user to choose from. As you type letters in the name, the list is shortened. Once one is selected, the current panel is moved to that directory.
+`Go To Favaorite` - This command will display a list of favorites by their assigned names for the user to choose from. As you type letters in the name, the list is shortened. Once one is selected, the current panel is moved to that directory.
 
 `Remove Favorite Directory` - This command will remove the selected favorite directory.
 
@@ -27,6 +43,22 @@ After restarting **fman**, you will have the ability to set favorite directories
 `Set Shorten Directory` - This command asks the user for a shortener name and creates a new shortener to that directory.
 
 `Remove Shortener Directory` - This command removes a shortener directory from the shortener list. It then expands the shortener in all the favorites that had that shortener.
+
+`Go to hot dir1` - This command set the current panel to the directory store in the memory location 1. The default is home.
+
+`Go to hot dir2` - This command set the current panel to the directory store in the memory location 2. The default is home.
+
+`Go to hot dir3` - This command set the current panel to the directory store in the memory location 3. The default is home.
+
+`Go to hot dir4` - This command set the current panel to the directory store in the memory location 4. The default is home.
+
+`Set hot dir1` - This command set the current panel to the directory store in the memory location 1. The default is home.
+
+`Set hot dir2` - This command set the current panel to the directory store in the memory location 2. The default is home.
+
+`Set hot dir3` - This command set the current panel to the directory store in the memory location 3. The default is home.
+
+`Set hot dir4` - This command set the current panel to the directory store in the memory location 4. The default is home.
 
 #### Files Created and Used
 
@@ -38,9 +70,12 @@ After restarting **fman**, you will have the ability to set favorite directories
 
 Once you install the plugin, set up your shortener directories. I setup one for each of my Dropbox locations. Then, create your favorites in the shorteners subdirectories. Once you have the favorites setup, move your `~/.favoritedirs` to your Dropbox location you want and  link to the original location and name. On the second system, setup the same shortener file using the same names and link the synced favoritedirs file to the normal location. Now you can go to the favorite directories inside these shortener directories easily! They also automatically update when you add new ones.
 
+You can also save and restore directory locations in the internal memory. There are four memory locations set aside to use. Very useful for saving a location, going somewhere else, and then popping right back to the previous location. These locations are lost when exiting fman.
+
 ### Features
 
 - The ability to set a favorite directory.
 - The ability to go to a favorite directory.
 - Remove a favorite directory.
 - Set up directories as shorteners with a name. Then all paths under that directory will be set to the shortener's name and expanded to that path when going to it. This gives the ability to share favorites between system just using the paths in common.
+- There are four memory locations to set directory values that can be easily recalled as well. Store from any panel and restore to any panel.

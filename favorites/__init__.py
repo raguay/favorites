@@ -15,6 +15,12 @@ FAVORITELIST = os.path.expanduser("~") + "/.favoritedirs"
 SHORTENERLIST = os.path.expanduser("~") + "/.shortenerdirs"
 
 #
+# The next global variable is for storing short term memory of directory locations. These
+# Will be quickly jumped to with hotkeys. I doubt I'll ever need more than four.
+#
+HOTLIST = ["~","~","~","~"]
+
+#
 # Function:    GoToFavaorite
 #
 # Description: This class performs the operation of going
@@ -289,3 +295,103 @@ def path_is_parent(parent_path, child_path):
 
     # Compare the common path of the parent and child path with the common path of just the parent path. Using the commonpath method on just the parent path will regularise the path name in the same way as the comparison that deals with both paths, removing any trailing path separator
     return os.path.commonpath([parent_path]) == os.path.commonpath([parent_path, child_path])
+
+#
+# Function:    goToHotDir
+#
+# Description: Go to the directory stored in the HOTLIST memory.
+#
+def goToHotDir(panel,dirNum):
+    if dirNum < 0 or dirNum >4:
+        dirNum = 0
+    panel.pane.set_path(expandDirPath(HOTLIST[dirNum]))
+
+#
+# Function:    setHotDir
+#
+# Description: Set the current panel's directory into the specified HOTLIST memory.
+#
+def setHotDir(panel,dirNum):
+    if dirNum < 0 or dirNum >3:
+        dirNum = 0
+    HOTLIST[dirNum] = panel.pane.get_path()
+
+#
+# Function:    SetHotDir1
+#
+# Description: This class performs the operation of going
+#              to the first directory stored in memory.
+#
+class SetHotDir1(DirectoryPaneCommand):
+    def __call__(self):
+        setHotDir(self,0)
+
+#
+# Function:    SetHotDir2
+#
+# Description: This class performs the operation of going
+#              to the second directory stored in memory.
+#
+class SetHotDir2(DirectoryPaneCommand):
+    def __call__(self):
+        setHotDir(self,1)
+
+#
+# Function:    SetHotDir3
+#
+# Description: This class performs the operation of going
+#              to the third directory stored in memory.
+#
+class SetHotDir3(DirectoryPaneCommand):
+    def __call__(self):
+        setHotDir(self,2)
+
+#
+# Function:    SetHotDir4
+#
+# Description: This class performs the operation of going
+#              to the fourth directory stored in memory.
+#
+class SetHotDir4(DirectoryPaneCommand):
+    def __call__(self):
+        setHotDir(self,3)
+
+#
+# Function:    GoToHotDir1
+#
+# Description: This class performs the operation of going
+#              to the first directory stored in memory.
+#
+class GoToHotDir1(DirectoryPaneCommand):
+    def __call__(self):
+        goToHotDir(self,0)
+
+#
+# Function:    GoToHotDir2
+#
+# Description: This class performs the operation of going
+#              to the second directory stored in memory.
+#
+class GoToHotDir2(DirectoryPaneCommand):
+    def __call__(self):
+        goToHotDir(self,1)
+
+#
+# Function:    GoToHotDir3
+#
+# Description: This class performs the operation of going
+#              to the third directory stored in memory.
+#
+class GoToHotDir3(DirectoryPaneCommand):
+    def __call__(self):
+        goToHotDir(self,2)
+
+#
+# Function:    GoToHotDir4
+#
+# Description: This class performs the operation of going
+#              to the fourth directory stored in memory.
+#
+class GoToHotDir4(DirectoryPaneCommand):
+    def __call__(self):
+        goToHotDir(self,3)
