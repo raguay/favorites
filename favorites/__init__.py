@@ -2,8 +2,11 @@
 # Load the libraries that are used in these commands.
 #
 from core.quicksearch_matchers import contains_chars
-from fman import DirectoryPaneCommand, DirectoryPaneListener, show_alert, load_json, DATA_DIRECTORY, show_prompt, show_quicksearch, QuicksearchItem, show_status_message, clear_status_message
-import os, stat, re
+from fman import DirectoryPaneCommand, show_prompt, show_quicksearch, QuicksearchItem, show_status_message, clear_status_message
+import os
+import re
+from fman.url import as_human_readable
+from fman.url import as_url
 
 #
 # I'm using two globals because it is faster for checking
@@ -15,10 +18,11 @@ FAVORITELIST = os.path.expanduser("~") + "/.favoritedirs"
 SHORTENERLIST = os.path.expanduser("~") + "/.shortenerdirs"
 
 #
-# The next global variable is for storing short term memory of directory locations. These
-# Will be quickly jumped to with hotkeys. I doubt I'll ever need more than four.
+# The next global variable is for storing short term memory
+# of directory locations. These will be quickly jumped to
+# with hotkeys. I doubt I'll ever need more than four.
 #
-HOTLIST = ["~","~","~","~"]
+HOTLIST = ["~", "~", "~", "~"]
 
 #
 # Function:    GoToFavaorite
@@ -27,6 +31,8 @@ HOTLIST = ["~","~","~","~"]
 #              to a favorite directory that the user
 #              selects.
 #
+
+
 class GoToFavorite(DirectoryPaneCommand):
     #
     # This directory command is for selecting a project
@@ -45,7 +51,7 @@ class GoToFavorite(DirectoryPaneCommand):
                 if '|' in dirTuple:
                     favName, favPath = dirTuple.strip().split('|')[0:2]
                     if favName == dirName:
-                        self.pane.set_path(expandDirPath(favPath + os.sep))
+                        self.pane.set_path(as_url(expandDirPath(favPath + os.sep)))
         clear_status_message()
 
     def _suggest_directory(self, query):
@@ -54,7 +60,7 @@ class GoToFavorite(DirectoryPaneCommand):
             with open(FAVORITELIST, "r") as f:
                 directories = f.readlines()
         for dirTuple in directories:
-            if  '|' in dirTuple:
+            if '|' in dirTuple:
                 dirName = dirTuple.split('|')[0]
                 match = contains_chars(dirName.lower(), query.lower())
                 if match or not query:
@@ -66,6 +72,8 @@ class GoToFavorite(DirectoryPaneCommand):
 # Description: This class performs the function of
 #              removing a favorite directory.
 #
+
+
 class RemoveFavoriteDirectory(DirectoryPaneCommand):
     #
     # This directory command is for selecting a favorite
@@ -92,7 +100,7 @@ class RemoveFavoriteDirectory(DirectoryPaneCommand):
             with open(FAVORITELIST, "r") as f:
                 favorites = f.readlines()
         for favTuple in favorites:
-            if  '|' in favTuple:
+            if '|' in favTuple:
                 favName = favTuple.split('|')[0]
                 match = contains_chars(favName.lower(), query.lower())
                 if match or not query:
@@ -103,6 +111,8 @@ class RemoveFavoriteDirectory(DirectoryPaneCommand):
 # Description: This class performs the function of
 #              removing a shortener directory.
 #
+
+
 class RemoveShortenerDirectory(DirectoryPaneCommand):
     #
     # This directory command is for selecting a favorite
@@ -123,7 +133,7 @@ class RemoveShortenerDirectory(DirectoryPaneCommand):
                     directories = f.readlines()
                 with open(SHORTENERLIST, "w") as f:
                     for dirTuple in directories:
-                        if  '|' in dirTuple:
+                        if '|' in dirTuple:
                             shortenerName, shortDir = dirTuple.strip().split('|')[0:2]
                             if shortenerName != shortName:
                                 f.write(dirTuple + '\n')
@@ -134,12 +144,12 @@ class RemoveShortenerDirectory(DirectoryPaneCommand):
             #
             if os.path.isfile(FAVORITELIST):
                 favorties = ["Home|~"]
-                with open(FAVORITELIST,"r") as f:
+                with open(FAVORITELIST, "r") as f:
                     favorties = f.readlines()
                 pattern = re.compile("\{\{" + shortName + "\}\}(.*)$")
-                with open(FAVORITELIST,"w") as f:
+                with open(FAVORITELIST, "w") as f:
                     for fav in favorties:
-                        if  '|' in fav:
+                        if '|' in fav:
                             favName, favPath = fav.strip().split('|')[0:2]
                             match = pattern.search(favPath)
                             if match:
@@ -169,6 +179,8 @@ class RemoveShortenerDirectory(DirectoryPaneCommand):
 #              shortener. Otherwise, it will shorten the path
 #              to the home directory.
 #
+
+
 class SetFavoriteDirectory(DirectoryPaneCommand):
     #
     # This dirctory command is for setting up a new project
@@ -182,7 +194,7 @@ class SetFavoriteDirectory(DirectoryPaneCommand):
         if len(selected_files) >= 1 or (len(selected_files) == 0 and self.get_chosen_files()):
             if len(selected_files) == 0 and self.get_chosen_files():
                 selected_files.append(self.get_chosen_files()[0])
-            dirName = selected_files[0]
+            dirName = as_human_readable(selected_files[0])
             if os.path.isfile(dirName):
                 #
                 # It's a file, not a directory. Get the directory
@@ -199,7 +211,7 @@ class SetFavoriteDirectory(DirectoryPaneCommand):
             writeappend = 'w'
             if os.path.isfile(FAVORITELIST):
                 writeappend = 'a'
-            with open(FAVORITELIST,writeappend) as f:
+            with open(FAVORITELIST, writeappend) as f:
                 f.write(favEntry+"\n")
 
 #
@@ -208,6 +220,8 @@ class SetFavoriteDirectory(DirectoryPaneCommand):
 # Description: This class will set a new shortener directory. It
 #              will ask the user for a name for the shortener.
 #
+
+
 class SetShortenDirectory(DirectoryPaneCommand):
     #
     # This dirctory command is for setting up a new project
@@ -221,7 +235,7 @@ class SetShortenDirectory(DirectoryPaneCommand):
         if len(selected_files) >= 1 or (len(selected_files) == 0 and self.get_chosen_files()):
             if len(selected_files) == 0 and self.get_chosen_files():
                 selected_files.append(self.get_chosen_files()[0])
-            dirName = selected_files[0]
+            dirName = as_human_readable(selected_files[0])
             if os.path.isfile(dirName):
                 #
                 # It's a file, not a directory. Get the directory
@@ -237,7 +251,7 @@ class SetShortenDirectory(DirectoryPaneCommand):
             writeappend = 'w'
             if os.path.isfile(SHORTENERLIST):
                 writeappend = 'a'
-            with open(SHORTENERLIST,writeappend) as f:
+            with open(SHORTENERLIST, writeappend) as f:
                 f.write(shortEntry+"\n")
 
 #
@@ -249,18 +263,20 @@ class SetShortenDirectory(DirectoryPaneCommand):
 #              take a home directory relative path and make it
 #              an absolute path.
 #
+
+
 def expandDirPath(dir):
     dirName = dir
     pattern = re.compile("\{\{(.*)\}\}")
     match = pattern.search(dir)
     if match:
         if os.path.isfile(SHORTENERLIST):
-          with open(SHORTENERLIST,"r") as f:
-            shorteners = f.readlines()
-            for shortener in shorteners:
-                shortName, shortPath = shortener.strip().split('|')
-                if match.group(1) == shortName:
-                    dirName = shortPath + dir[match.end(1)+2:]
+            with open(SHORTENERLIST, "r") as f:
+                shorteners = f.readlines()
+                for shortener in shorteners:
+                    shortName, shortPath = shortener.strip().split('|')
+                    if match.group(1) == shortName:
+                        dirName = shortPath + dir[match.end(1)+2:]
     return os.path.expanduser(dirName)
 
 #
@@ -272,28 +288,41 @@ def expandDirPath(dir):
 #              the path relative to the Home directory if it is
 #              a child directory of the home directory.
 #
+
+
 def shortenDirPath(dir):
     dirName = dir
     if os.path.isfile(SHORTENERLIST):
-        with open(SHORTENERLIST,"r") as f:
+        with open(SHORTENERLIST, "r") as f:
             shorteners = f.readlines()
             for shortener in shorteners:
-                pathName,path = shortener.strip().split('|')
-                if path_is_parent(path,dirName):
-                    dirName = "{{" + pathName + "}}/" + os.path.relpath(dirName,path)
-    if path_is_parent(os.path.expanduser("~"),dirName):
-        dirName = '~/' + os.path.relpath(dirName,os.path.expanduser("~"))
+                pathName, path = shortener.strip().split('|')
+                if path_is_parent(path, dirName):
+                    dirName = "{{" + pathName + "}}/" + os.path.relpath(dirName, path)
+    if path_is_parent(os.path.expanduser("~"), dirName):
+        dirName = '~/' + os.path.relpath(dirName, os.path.expanduser("~"))
     return dirName
 
 #
-# The following function was taken from [StackOverflow](https://stackoverflow.com/questions/3812849/how-to-check-whether-a-directory-is-a-sub-directory-of-another-directory)
+# The following function was taken from
+# [StackOverflow](https://stackoverflow.com/questions/3812849/how-to-check-whether-a-directory-is-a-sub-directory-of-another-directory)
 #
+
+
 def path_is_parent(parent_path, child_path):
-    # Smooth out relative path names, note: if you are concerned about symbolic links, you should use os.path.realpath too
+    # Smooth out relative path names, note:
+    # if you are concerned about symbolic links,
+    # you should use os.path.realpath too
     parent_path = os.path.abspath(parent_path)
     child_path = os.path.abspath(child_path)
 
-    # Compare the common path of the parent and child path with the common path of just the parent path. Using the commonpath method on just the parent path will regularise the path name in the same way as the comparison that deals with both paths, removing any trailing path separator
+    # Compare the common path of the parent and
+    # child path with the common path of just the
+    # parent path. Using the commonpath method on
+    # just the parent path will regularise the
+    # path name in the same way as the comparison
+    # that deals with both paths, removing any
+    # trailing path separator
     return os.path.commonpath([parent_path]) == os.path.commonpath([parent_path, child_path])
 
 #
@@ -302,11 +331,13 @@ def path_is_parent(parent_path, child_path):
 # Description: This class performs the operation of going
 #              to the specified directory stored in memory.
 #
+
+
 class SetHotDir(DirectoryPaneCommand):
     def __call__(self, dirNum=0):
-        if dirNum < 0 or dirNum >3:
+        if dirNum < 0 or dirNum > 4:
             dirNum = 0
-        HOTLIST[dirNum] = self.pane.get_path()
+        HOTLIST[dirNum] = as_human_readable(self.pane.get_path())
 
 #
 # Function:    GoToHotDir
@@ -314,9 +345,10 @@ class SetHotDir(DirectoryPaneCommand):
 # Description: This class performs the operation of going
 #              to the specified directory stored in memory.
 #
+
+
 class GoToHotDir(DirectoryPaneCommand):
     def __call__(self, dirNum=0):
-        if dirNum < 0 or dirNum >4:
+        if dirNum < 0 or dirNum > 4:
             dirNum = 0
-        self.pane.set_path(expandDirPath(HOTLIST[dirNum]))
-
+        self.pane.set_path(as_url(expandDirPath(HOTLIST[dirNum])))
