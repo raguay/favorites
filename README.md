@@ -34,7 +34,7 @@ After restarting **fman**, you will have the ability to set favorite directories
 
 #### Commands
 
-`Go To Favaorite` - This command will display a list of favorites by their assigned names for the user to choose from. As you type letters in the name, the list is shortened. Once one is selected, the current panel is moved to that directory.
+`Go To Favorite` - This command will display a list of favorites by their assigned names for the user to choose from. As you type letters in the name, the list is shortened. Once one is selected, the current panel is moved to that directory.
 
 `Remove Favorite Directory` - This command will remove the selected favorite directory.
 
