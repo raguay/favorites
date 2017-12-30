@@ -85,3 +85,4 @@ You can also save and restore directory locations in the internal memory. There 
 - Remove a favorite directory.
 - Set up directories as shorteners with a name. Then all paths under that directory will be set to the shortener's name and expanded to that path when going to it. This gives the ability to share favorites between system just using the paths in common.
 - There are four memory locations to set directory values that can be easily recalled as well. Store from any panel and restore to any panel.
+- The ability to backtrack previously visited directories. Not panel specific.
