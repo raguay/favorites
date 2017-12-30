@@ -16,6 +16,22 @@ After restarting **fman**, you will have the ability to set favorite directories
 
 <Ctrl+0> - Go to a Favorite Directory.
 
+<Ctrl+1> - Pop up first previous directory.
+
+<Ctrl+2> - Pop up second previous directory.
+
+<Ctrl+3> - Pop up third previous directory.
+
+<Ctrl+4> - Pop up fourth previous directory.
+
+<Ctrl+5> - Pop up fifth previous directory.
+
+<Ctrl+6> - Pop up sixth previous directory.
+
+<Ctrl+7> - Pop up seventh previous directory.
+
+<Ctrl+8> - Pop up the eighth previous directory.
+
 <Cmd+1> - Set the first directory memory to the current panel's directory.
 
 <Cmd+2> - Set the second directory memory to the current panel's directory.
@@ -34,7 +50,7 @@ After restarting **fman**, you will have the ability to set favorite directories
 
 #### Commands
 
-`Go To Favorite` - This command will display a list of favorites by their assigned names for the user to choose from. As you type letters in the name, the list is shortened. Once one is selected, the current panel is moved to that directory.
+`Go To Favaorite` - This command will display a list of favorites by their assigned names for the user to choose from. As you type letters in the name, the list is shortened. Once one is selected, the current panel is moved to that directory.
 
 `Remove Favorite Directory` - This command will remove the selected favorite directory.
 
@@ -47,6 +63,8 @@ After restarting **fman**, you will have the ability to set favorite directories
 `Go to hot dir` - This command set the current panel to the directory store in the memory location specified in the dirNum argument. The default is 0.
 
 `Set hot dir` - This command set the current panel to the directory store in the memory location 1 specified in the dirNum argument. The default is 0.
+
+`pop directory` - This command pops to the previous directory.
 
 #### Files Created and Used
 

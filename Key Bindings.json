@@ -9,5 +9,14 @@
 	{ "keys": ["Alt+1"], "command": "go_to_hot_dir", "args": {"dirNum": 0}},
 	{ "keys": ["Alt+2"], "command": "go_to_hot_dir", "args": {"dirNum": 1}},
 	{ "keys": ["Alt+3"], "command": "go_to_hot_dir", "args": {"dirNum": 2}},
-	{ "keys": ["Alt+4"], "command": "go_to_hot_dir", "args": {"dirNum": 3}}
+	{ "keys": ["Alt+4"], "command": "go_to_hot_dir", "args": {"dirNum": 3}},
+	{ "keys": ["Ctrl+1"], "command":"pop_dir", "args": {"dirNum": 0}},
+	{ "keys": ["Ctrl+2"], "command":"pop_dir", "args": {"dirNum": 1}},
+	{ "keys": ["Ctrl+3"], "command":"pop_dir", "args": {"dirNum": 2}},
+	{ "keys": ["Ctrl+4"], "command":"pop_dir", "args": {"dirNum": 3}},
+	{ "keys": ["Ctrl+5"], "command":"pop_dir", "args": {"dirNum": 4}},
+	{ "keys": ["Ctrl+6"], "command":"pop_dir", "args": {"dirNum": 5}},
+	{ "keys": ["Ctrl+7"], "command":"pop_dir", "args": {"dirNum": 6}},
+	{ "keys": ["Ctrl+8"], "command":"pop_dir", "args": {"dirNum": 7}},
+	{ "keys": ["Ctrl+9"], "command":"pop_dir", "args": {"dirNum": 8}}
 ]

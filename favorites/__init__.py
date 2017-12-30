@@ -2,7 +2,7 @@
 # Load the libraries that are used in these commands.
 #
 from core.quicksearch_matchers import contains_chars
-from fman import DirectoryPaneCommand, show_prompt, show_quicksearch, QuicksearchItem, show_status_message, clear_status_message
+from fman import DirectoryPaneCommand, show_prompt, show_alert, show_quicksearch, QuicksearchItem, show_status_message, clear_status_message, DirectoryPaneListener
 import os
 import re
 from fman.url import as_human_readable
@@ -352,3 +352,52 @@ class GoToHotDir(DirectoryPaneCommand):
         if dirNum < 0 or dirNum > 4:
             dirNum = 0
         self.pane.set_path(as_url(expandDirPath(HOTLIST[dirNum])))
+
+
+#
+# Globals for PopDir functionality.
+#
+POPDIR = ['','','','','','','','','','']
+LASTPOP = -1
+POPPING = False
+
+#
+# Function:    PopdirectoryListener
+#
+# Description: This class is used to record directories
+#              as they are entered.
+#
+class PopdirectoryListener(DirectoryPaneListener):
+    #
+    # This is called everytime a directory is changed
+    # in fman. It will track directories visited for
+    # quick jump back.
+    #
+    def on_path_changed(self):
+        #
+        # See if the new directory is a project directory.
+        #
+        global LASTPOP, POPDIR, POPPING
+
+        if not POPPING:
+            LASTPOP = (LASTPOP + 1) % 10
+            POPDIR[LASTPOP] = as_human_readable(self.pane.get_path())
+
+        POPPING = False
+
+#
+# Function:    PopDir
+#
+# Description: This command will go the a previously visited
+#              directory. Executing without the parameter just
+#              goes back to the last directory. A non-zero will
+#              go back that many past the last directory.
+#
+class PopDir(DirectoryPaneCommand):
+    def __call__(self, dirNum=0):
+        global LASTPOP, POPDIR, POPPING
+        LASTPOP = LASTPOP - 1 - dirNum
+        if LASTPOP < 0:
+            LASTPOP = 0
+        POPPING = True
+        self.pane.set_path(as_url(POPDIR[LASTPOP]))
