@@ -51,7 +51,7 @@ class GoToFavorite(DirectoryPaneCommand):
                 if '|' in dirTuple:
                     favName, favPath = dirTuple.strip().split('|')[0:2]
                     if favName == dirName:
-                        if ':' in favPath:
+                        if '://' in favPath:
                            self.pane.set_path(expandDirPath(favPath + os.sep))
                         else:
                            self.pane.set_path(as_url(expandDirPath(favPath + os.sep)))
