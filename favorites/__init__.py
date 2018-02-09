@@ -319,6 +319,14 @@ def path_is_parent(parent_path, child_path):
     parent_path = os.path.abspath(parent_path)
     child_path = os.path.abspath(child_path)
 
+    # Compare the drive of the parent and child
+    # path. This is added because commonpath does
+    # not work on paths on different drives.
+    [parent_drive, _] = os.path.splitdrive(parent_path)
+    [child_drive, _] = os.path.splitdrive(child_path)
+    if parent_drive != child_drive:
+        return False
+
     # Compare the common path of the parent and
     # child path with the common path of just the
     # parent path. Using the commonpath method on
