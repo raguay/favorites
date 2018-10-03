@@ -319,6 +319,14 @@ def path_is_parent(parent_path, child_path):
     parent_path = os.path.abspath(parent_path)
     child_path = os.path.abspath(child_path)
 
+    # Compare the drive of the parent and child
+    # path. This is added because commonpath does
+    # not work on paths on different drives.
+    [parent_drive, _] = os.path.splitdrive(parent_path)
+    [child_drive, _] = os.path.splitdrive(child_path)
+    if parent_drive != child_drive:
+        return False
+
     # Compare the common path of the parent and
     # child path with the common path of just the
     # parent path. Using the commonpath method on
@@ -370,6 +378,8 @@ POPPING = False
 # Description: This class is used to record directories
 #              as they are entered.
 #
+
+
 class PopdirectoryListener(DirectoryPaneListener):
     #
     # This is called everytime a directory is changed
@@ -396,11 +406,11 @@ class PopdirectoryListener(DirectoryPaneListener):
 #              goes back to the last directory. A non-zero will
 #              go back that many past the last directory.
 #
+
+
 class PopDir(DirectoryPaneCommand):
     def __call__(self, dirNum=0):
         global LASTPOP, POPDIR, POPPING
-        LASTPOP = LASTPOP - 1 - dirNum
-        if LASTPOP < 0:
-            LASTPOP = 0
+        LASTPOP = abs(LASTPOP - 1 - dirNum)
         POPPING = True
         self.pane.set_path(as_url(POPDIR[LASTPOP]))
