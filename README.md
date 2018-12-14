@@ -10,7 +10,7 @@ After restarting **fman**, you will have the ability to set favorite directories
 
 #### HotKeys Set
 
-<Shift+f>  - Set a new Favorite directory
+<Shift+f>  - Set a new Favorite directory. This makes the current directory in the active pane a favorite directory.
 
 <Ctrl+f> - Remove a Favorite Directory.
 
