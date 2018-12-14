@@ -5,8 +5,8 @@ from core.quicksearch_matchers import contains_chars
 from fman import DirectoryPaneCommand, show_prompt, show_alert, show_quicksearch, QuicksearchItem, show_status_message, clear_status_message, DirectoryPaneListener
 import os
 import re
-from fman.url import as_human_readable
-from fman.url import as_url
+from fman.url import as_human_readable, as_url, splitscheme
+from fman.fs import is_dir
 
 #
 # I'm using two globals because it is faster for checking
@@ -38,6 +38,7 @@ class GoToFavorite(DirectoryPaneCommand):
     # This directory command is for selecting a project
     # and going to that directory.
     #
+
     def __call__(self):
         show_status_message('Favorite Selection')
         result = show_quicksearch(self._suggest_directory)
@@ -52,9 +53,11 @@ class GoToFavorite(DirectoryPaneCommand):
                     favName, favPath = dirTuple.strip().split('|')[0:2]
                     if favName == dirName:
                         if '://' in favPath:
-                           self.pane.set_path(expandDirPath(favPath + os.sep))
+                            newPath = expandDirPath(favPath + os.sep)
+                            self.pane.set_path(newPath)
                         else:
-                           self.pane.set_path(as_url(expandDirPath(favPath + os.sep)))
+                            newPath = as_url(expandDirPath(favPath + os.sep))
+                            self.pane.set_path(newPath)
         clear_status_message()
 
     def _suggest_directory(self, query):
@@ -82,6 +85,7 @@ class RemoveFavoriteDirectory(DirectoryPaneCommand):
     # This directory command is for selecting a favorite
     # and deleting it.
     #
+
     def __call__(self):
         show_status_message('Remove Favorite Directory')
         result = show_quicksearch(self._suggest_favorite)
@@ -121,6 +125,7 @@ class RemoveShortenerDirectory(DirectoryPaneCommand):
     # This directory command is for selecting a favorite
     # and deleting it.
     #
+
     def __call__(self):
         show_status_message('Remove Shortener Directory')
         result = show_quicksearch(self._suggest_shortener)
@@ -189,33 +194,25 @@ class SetFavoriteDirectory(DirectoryPaneCommand):
     # This dirctory command is for setting up a new project
     # directory. It will add to the list of project directories
     # and set the current project directory to the directory.     #
+
     def __call__(self):
         #
         # Get the directory path.
         #
-        selected_files = self.pane.get_selected_files()
-        if len(selected_files) >= 1 or (len(selected_files) == 0 and self.get_chosen_files()):
-            if len(selected_files) == 0 and self.get_chosen_files():
-                selected_files.append(self.get_chosen_files()[0])
-            dirName = as_human_readable(selected_files[0])
-            if os.path.isfile(dirName):
-                #
-                # It's a file, not a directory. Get the directory
-                # name for this file's parent directory.
-                #
-                dirName = os.path.dirname(dirName)
-            #
-            # Add to the list of projects. Get a name
-            # from the user.
-            #
-            dirName = shortenDirPath(dirName)
-            favName, checked = show_prompt("Name this Favorite:")
-            favEntry = favName + "|" + dirName
-            writeappend = 'w'
-            if os.path.isfile(FAVORITELIST):
-                writeappend = 'a'
-            with open(FAVORITELIST, writeappend) as f:
-                f.write(favEntry+"\n")
+        dirName = as_human_readable(self.pane.get_path())
+
+        #
+        # Add to the list of projects. Get a name
+        # from the user.
+        #
+        dirName = shortenDirPath(dirName)
+        favName, checked = show_prompt("Name this Favorite:")
+        favEntry = favName + "|" + dirName
+        writeappend = 'w'
+        if os.path.isfile(FAVORITELIST):
+            writeappend = 'a'
+        with open(FAVORITELIST, writeappend) as f:
+            f.write(favEntry + "\n")
 
 #
 # Function:    SetShortenDirectory
@@ -230,6 +227,7 @@ class SetShortenDirectory(DirectoryPaneCommand):
     # This dirctory command is for setting up a new project
     # directory. It will add to the list of project directories
     # and set the current project directory to the directory.     #
+
     def __call__(self):
         #
         # Get the directory path.
@@ -255,7 +253,7 @@ class SetShortenDirectory(DirectoryPaneCommand):
             if os.path.isfile(SHORTENERLIST):
                 writeappend = 'a'
             with open(SHORTENERLIST, writeappend) as f:
-                f.write(shortEntry+"\n")
+                f.write(shortEntry + "\n")
 
 #
 # Function:    expandDirPath
@@ -279,7 +277,7 @@ def expandDirPath(dir):
                 for shortener in shorteners:
                     shortName, shortPath = shortener.strip().split('|')
                     if match.group(1) == shortName:
-                        dirName = shortPath + dir[match.end(1)+2:]
+                        dirName = shortPath + dir[match.end(1) + 2:]
     return os.path.expanduser(dirName)
 
 #
@@ -301,7 +299,8 @@ def shortenDirPath(dir):
             for shortener in shorteners:
                 pathName, path = shortener.strip().split('|')
                 if path_is_parent(path, dirName):
-                    dirName = "{{" + pathName + "}}/" + os.path.relpath(dirName, path)
+                    dirName = "{{" + pathName + "}}/" + \
+                        os.path.relpath(dirName, path)
     if path_is_parent(os.path.expanduser("~"), dirName):
         dirName = '~/' + os.path.relpath(dirName, os.path.expanduser("~"))
     return dirName
@@ -345,6 +344,7 @@ def path_is_parent(parent_path, child_path):
 
 
 class SetHotDir(DirectoryPaneCommand):
+
     def __call__(self, dirNum=0):
         if dirNum < 0 or dirNum > 4:
             dirNum = 0
@@ -359,6 +359,7 @@ class SetHotDir(DirectoryPaneCommand):
 
 
 class GoToHotDir(DirectoryPaneCommand):
+
     def __call__(self, dirNum=0):
         if dirNum < 0 or dirNum > 4:
             dirNum = 0
@@ -368,7 +369,7 @@ class GoToHotDir(DirectoryPaneCommand):
 #
 # Globals for PopDir functionality.
 #
-POPDIR = ['','','','','','','','','','']
+POPDIR = ['', '', '', '', '', '', '', '', '', '']
 LASTPOP = -1
 POPPING = False
 
@@ -386,6 +387,7 @@ class PopdirectoryListener(DirectoryPaneListener):
     # in fman. It will track directories visited for
     # quick jump back.
     #
+
     def on_path_changed(self):
         #
         # See if the new directory is a project directory.
@@ -409,6 +411,7 @@ class PopdirectoryListener(DirectoryPaneListener):
 
 
 class PopDir(DirectoryPaneCommand):
+
     def __call__(self, dirNum=0):
         global LASTPOP, POPDIR, POPPING
         LASTPOP = abs(LASTPOP - 1 - dirNum)
