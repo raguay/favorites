@@ -47,17 +47,18 @@ class GoToFavorite(DirectoryPaneCommand):
             directories = ["Home|~"]
             if os.path.isfile(FAVORITELIST):
                 with open(FAVORITELIST, "r") as f:
-                    directories = f.readlines()
+                    directories = directories + f.readlines()
             for dirTuple in directories:
                 if '|' in dirTuple:
                     favName, favPath = dirTuple.strip().split('|')[0:2]
                     if favName == dirName:
                         if '://' in favPath:
-                            newPath = expandDirPath(favPath + os.sep)
+                            newPath = expandDirPath(favPath)
                             self.pane.set_path(newPath)
                         else:
-                            newPath = as_url(expandDirPath(favPath + os.sep))
+                            newPath = as_url(expandDirPath(favPath))
                             self.pane.set_path(newPath)
+                        break
         clear_status_message()
 
     def _suggest_directory(self, query):
