@@ -65,7 +65,7 @@ class GoToFavorite(DirectoryPaneCommand):
         directories = ["Home|~"]
         if os.path.isfile(FAVORITELIST):
             with open(FAVORITELIST, "r") as f:
-                directories = f.readlines()
+                directories = directories + f.readlines()
         for dirTuple in directories:
             if '|' in dirTuple:
                 dirName = dirTuple.split('|')[0]
