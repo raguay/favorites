@@ -208,6 +208,22 @@ class SetFavoriteDirectory(DirectoryPaneCommand):
         #
         dirName = shortenDirPath(dirName)
         favName, checked = show_prompt("Name this Favorite:")
+
+        #
+        # Find and remove the name from favorites.
+        #
+        if os.path.isfile(FAVORITELIST):
+            with open(FAVORITELIST, "r") as f:
+                directories = f.readlines()
+            with open(FAVORITELIST, "w") as f:
+                for dirTuple in directories:
+                    oldDirName = dirTuple.split('|')[0]
+                    if favName != oldDirName:
+                        f.write(dirTuple)
+
+        #
+        # Add name to favorites.
+        #
         favEntry = favName + "|" + dirName
         writeappend = 'w'
         if os.path.isfile(FAVORITELIST):
