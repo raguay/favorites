@@ -50,11 +50,17 @@ After restarting **fman**, you will have the ability to set favorite directories
 
 #### Commands
 
-`Go To Favaorite` - This command will display a list of favorites by their assigned names for the user to choose from. As you type letters in the name, the list is shortened. Once one is selected, the current panel is moved to that directory.
+`Go To Favorite` - This command will display a list of favorites by their assigned names for the user to choose from. As you type letters in the name, the list is shortened. Once one is selected, the current panel is moved to that directory.
+
+`Go To Favorite Pair` - This command will display a list of favorite directory pairs by their assigned name. When the user selects one, the left and right directories will be set as saved.
 
 `Remove Favorite Directory` - This command will remove the selected favorite directory.
 
+`Remove Favorite Directory Pair` - This command will remove the selected favorite directory pair.
+
 `Set Favorite Directory` - This command sets the currently highlighted directory as a favorite. If the path contains a shortener's path, then it will be shortened to that shorener's name in double brackets.
+
+`Set Favorite Dirctory Pair` - This command sets a left and right directory structure to save.
 
 `Set Shorten Directory` - This command asks the user for a shortener name and creates a new shortener to that directory.
 
@@ -82,7 +88,11 @@ You can also save and restore directory locations in the internal memory. There 
 
 - The ability to set a favorite directory.
 - The ability to go to a favorite directory.
+- The ability to set a favorite directory pair.
+- The ability to go to a favorite directory pair.
 - Remove a favorite directory.
+- Remove a favorite directory pair.
 - Set up directories as shorteners with a name. Then all paths under that directory will be set to the shortener's name and expanded to that path when going to it. This gives the ability to share favorites between system just using the paths in common.
 - There are four memory locations to set directory values that can be easily recalled as well. Store from any panel and restore to any panel.
 - The ability to backtrack previously visited directories. Not panel specific.
+
