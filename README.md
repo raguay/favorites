@@ -1,4 +1,4 @@
-## Favorites
+# Favorites
 
 Plugin for [fman.io](https://fman.io) that gives you the ability to setup a list of favorite directories to go to.
 
@@ -6,9 +6,9 @@ You can install this plugin by pressing `<shift+cmd+p>` to open the command pall
 
 After restarting **fman**, you will have the ability to set favorite directories, go to them, set path shorteners, remove path shorteners, remove favorites, and set/go to four directory locations kept in memory.
 
-### Usage
+## Usage
 
-#### HotKeys Set
+### HotKeys Set
 
 <Shift+f>  - Set a new Favorite directory. This makes the current directory in the active pane a favorite directory.
 
@@ -48,7 +48,7 @@ After restarting **fman**, you will have the ability to set favorite directories
 
 <Alt+4> - Set the current panel to go to the fourth directory memory location.
 
-#### Commands
+### Commands
 
 `Go To Favorite` - This command will display a list of favorites by their assigned names for the user to choose from. As you type letters in the name, the list is shortened. Once one is selected, the current panel is moved to that directory.
 
@@ -72,13 +72,15 @@ After restarting **fman**, you will have the ability to set favorite directories
 
 `pop directory` - This command pops to the previous directory.
 
-#### Files Created and Used
+### Files Created and Used
 
 `~/.favoritedirs` - This file contains all of your favorite directories. Each line is the assigned name, a "|" symbol, and the path to the directory. If the path contains a directory in the `~/.shorenerdirs` file, then the path is removed and a placeholder is inserted instead.
 
 `~/.shortenerdirs` - This file contains all the shortener directories and their names. It is in the same format as the `~/.favoritedirs` file. Once you create this file, copy it to your Dropbox location and link it back to this location. Now you can share your favorites between systems.
 
-#### Suggested Usage
+`~/.favoritepairs` - This file contains all the pair of directories stored.
+
+### Suggested Usage
 
 Once you install the plugin, set up your shortener directories. I setup one for each of my Dropbox locations. Then, create your favorites in the shorteners subdirectories. Once you have the favorites setup, move your `~/.favoritedirs` to your Dropbox location you want and  link to the original location and name. On the second system, setup the same shortener file using the same names and link the synced favoritedirs file to the normal location. Now you can go to the favorite directories inside these shortener directories easily! They also automatically update when you add new ones.
 
